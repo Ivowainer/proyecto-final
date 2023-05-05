@@ -8,7 +8,7 @@ class UserInstance {
     db: { connect: () => Promise<void>; disconnect: () => Promise<void> }; */
 
     async createUser(objectUserInfo): Promise<IUserClassReturn> {
-        return { codeResponse: 202, message: "The user has been created" };
+        return { codeResponse: 200, message: "The user has been created" };
     }
 }
 

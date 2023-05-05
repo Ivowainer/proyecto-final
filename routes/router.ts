@@ -5,8 +5,8 @@ import { usersController } from "../controllers";
 const router = express.Router();
 
 // Definir rutas y controladores
-router.get("/users", usersController.getAllUsers);
 router.post("/users", usersController.createUser);
+router.get("/users", usersController.getAllUsers);
 
 router.get("/users/:id", usersController.getUserById);
 router.put("/users/:id", usersController.updateUser);

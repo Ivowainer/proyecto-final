@@ -14,7 +14,7 @@ app.use(express.json());
 db.connect();
 
 // Rutas
-app.use(router);
+app.use("/api", router);
 
 // Inicializar servidor
 const PORT = process.env.PORT || 3000;
