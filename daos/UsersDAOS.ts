@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import User from "../models/userModel";
 
 import { IUserClassReturn } from "../types";
-import { validations } from "../utils";
+import { jwtFunc, validations } from "../utils";
 
 class UserInstance {
     /* constructor(db) {
@@ -23,6 +24,7 @@ class UserInstance {
         }
 
         try {
+            // User Create
             const user = await User.findOne({ email }).lean();
 
             if (user) {
@@ -35,9 +37,20 @@ class UserInstance {
                 name,
             });
 
-            await newUser.save();
+            await newUser.save({ validateBeforeSave: true });
 
-            return { codeResponse: 200, message: "The user has been created", user: newUser.toObject() };
+            // User JWT
+            const token = jwtFunc.signToken(newUser._id.toString(), email);
+
+            return {
+                codeResponse: 201,
+                message: "User created successfully",
+                user: {
+                    _id: newUser.toObject()._id.toString(),
+                    email: newUser.toObject().email,
+                    name: newUser.toObject().name,
+                },
+            };
         } catch (error) {
             throw { codeResponse: error.code, message: error.message };
         }
