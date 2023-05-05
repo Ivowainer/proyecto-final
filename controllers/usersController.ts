@@ -4,8 +4,8 @@ const mainUserInstance = new UserInstance();
 
 export const createUser = async (req, res) => {
     try {
-        const resolveResponse = await mainUserInstance.createUser(req.body);
-        res.status(resolveResponse.codeResponse).json(resolveResponse.message);
+        const { codeResponse, message, user } = await mainUserInstance.createUser(req.body);
+        res.status(codeResponse).json({ message, user });
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }
