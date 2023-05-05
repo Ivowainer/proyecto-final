@@ -1,10 +1,14 @@
 import UserInstance from "../daos/users";
-import { db } from "../database";
 
-const mainUserInstance = new UserInstance(db);
+const mainUserInstance = new UserInstance();
 
-export const getAllUsers = (req, res) => {
+export const getAllUsers = async (req, res) => {
     // Lógica para obtener todos los usuarios
+    try {
+        await mainUserInstance.createUser({ name: "sf" });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
 };
 
 export const getUserById = (req, res) => {

@@ -1,12 +1,14 @@
+import { IUserClassReturn } from "../types";
+
 class UserInstance {
-    constructor(db) {
+    /* constructor(db) {
         this.db = db;
     }
 
-    db: { connect: () => Promise<void>; disconnect: () => Promise<void> };
+    db: { connect: () => Promise<void>; disconnect: () => Promise<void> }; */
 
-    async createUser(objectUserInfo) {
-        console.log(objectUserInfo);
+    async createUser(objectUserInfo): Promise<IUserClassReturn> {
+        return { codeResponse: 202, message: "The user has been created" };
     }
 }
 
