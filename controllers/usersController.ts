@@ -4,15 +4,20 @@ const mainUserInstance = new UserInstance();
 
 export const createUser = async (req, res) => {
     try {
-        const { codeResponse, message, user } = await mainUserInstance.createUser(req.body);
-        res.status(codeResponse).json({ message, user });
+        const { codeResponse, message, user, token } = await mainUserInstance.createUser(req.body);
+        res.status(codeResponse).json({ message, user, token });
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }
 };
 
 export const getAllUsers = async (req, res) => {
-    // Lógica para obtener todos los usuarios
+    try {
+        const { codeResponse, message } = await mainUserInstance.getAllUsers();
+        res.status(codeResponse).json({ message });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
 };
 
 export const getUserById = (req, res) => {

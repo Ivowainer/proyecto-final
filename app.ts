@@ -1,6 +1,7 @@
 // Importar dependencias necesarias
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import router from "./routes/router";
 import { db } from "./database";
@@ -11,6 +12,7 @@ const app = express();
 // Configuración de middleware
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser());
 db.connect();
 
 // Rutas

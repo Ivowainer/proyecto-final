@@ -45,6 +45,7 @@ class UserInstance {
             return {
                 codeResponse: 201,
                 message: "User created successfully",
+                token,
                 user: {
                     _id: newUser.toObject()._id.toString(),
                     email: newUser.toObject().email,
@@ -54,6 +55,10 @@ class UserInstance {
         } catch (error) {
             throw { codeResponse: error.code, message: error.message };
         }
+    }
+
+    async getAllUsers(): Promise<IUserClassReturn> {
+        return { codeResponse: 200, message: "sf" };
     }
 }
 
