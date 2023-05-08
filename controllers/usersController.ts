@@ -38,6 +38,11 @@ export const updateUser = async (req, res) => {
     }
 };
 
-export const deleteUser = (req, res) => {
-    // Lógica para eliminar un usuario existente
+export const deleteUser = async (req, res) => {
+    try {
+        const { codeResponse, message, user } = await mainUserInstance.deleteUser(req.params?.id);
+        res.status(codeResponse).json({ user, message });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
 };

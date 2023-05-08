@@ -101,6 +101,16 @@ class UserInstance {
             throw { codeResponse: error.code, message: error.message };
         }
     }
+
+    async deleteUser(id): Promise<IUserClassReturn> {
+        try {
+            const userDeleted = await User.findOneAndDelete(id);
+
+            return { codeResponse: 200, message: "The user has been deleted successfully" };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
 }
 
 export default UserInstance;
