@@ -7,11 +7,17 @@ import { jwtFunc } from "../utils";
 const router = express.Router();
 
 // Definir rutas y controladores de Usuarios
-router.post("/users", usersController.createUser);
-router.get("/users", usersController.getAllUsers);
+//prettier-ignore
+router
+    .route("/users")
+    .post(usersController.createUser)
+    .get(usersController.getAllUsers)
 
-router.get("/users/:id", usersController.getUserById);
-router.put("/users/:id", usersController.updateUser);
-router.delete("/users/:id", usersController.deleteUser);
+//prettier-ignore
+router
+    .route("/users/:id")    
+    .get(usersController.getUserById)
+    .put(usersController.updateUser)
+    .delete(usersController.deleteUser);
 
 export default router;

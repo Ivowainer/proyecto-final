@@ -17,8 +17,8 @@ class UserInstance {
         const { email, name, password } = objectUserInfo;
 
         // Validation
-        if (password.length < 6) throw { codeRepsonse: 403, message: "The password must contain at least 6 characters" };
-        if (name.length < 3) throw { codeRepsonse: 403, message: "The name must contain at least 3 characters" };
+        if (!password || password.length < 6) throw { codeRepsonse: 403, message: "The password must contain at least 6 characters" };
+        if (!name || name.length < 3) throw { codeRepsonse: 403, message: "The name must contain at least 3 characters" };
         if (!validations.isValidEmail(email)) {
             throw { codeResponse: 403, message: "The email is not valid" };
         }
