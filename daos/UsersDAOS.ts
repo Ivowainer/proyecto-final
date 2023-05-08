@@ -57,10 +57,46 @@ class UserInstance {
         }
     }
 
-    async getAllUsers(user: IUser): Promise<IUserClassReturn> {
+    async getAllUsers(): Promise<IUserClassReturn> {
         try {
             const allUsers = await User.find().select("-password -__v");
             return { codeResponse: 200, message: "All Users", users: allUsers.map((val) => val.toObject()) };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
+
+    async getUserById(id: string): Promise<IUserClassReturn> {
+        try {
+            const user = await User.findById(id).select("-password -__v");
+
+            if (!user) {
+                throw { codeResponse: 404, message: "The user doesn't exists" };
+            }
+
+            console.log(user);
+
+            return { codeResponse: 200, message: `User by id: ${id}`, user: user.toObject() };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
+
+    async updateUser(objectUserInfo, id: string): Promise<IUserClassReturn> {
+        const { email, name } = objectUserInfo;
+
+        // Validation
+        if (name && name.length < 3) throw { codeRepsonse: 403, message: "The name must contain at least 3 characters" };
+        if (email && !validations.isValidEmail(email)) {
+            throw { codeResponse: 403, message: "The email is not valid" };
+        }
+
+        try {
+            const userUpdated = await User.findByIdAndUpdate(id, { email, name });
+
+            const user = await userUpdated.save();
+
+            return { codeResponse: 200, message: "The user has been updated successfully", user: user.toObject() };
         } catch (error) {
             throw { codeResponse: error.code, message: error.message };
         }
