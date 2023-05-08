@@ -6,9 +6,9 @@ import { jwtFunc } from "../utils";
 // Crear instancia del enrutador
 const router = express.Router();
 
-// Definir rutas y controladores
+// Definir rutas y controladores de Usuarios
 router.post("/users", usersController.createUser);
-router.get("/users", checkAuth, usersController.getAllUsers);
+router.get("/users", usersController.getAllUsers);
 
 router.get("/users/:id", usersController.getUserById);
 router.put("/users/:id", usersController.updateUser);

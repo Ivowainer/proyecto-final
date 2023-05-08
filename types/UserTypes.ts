@@ -14,5 +14,6 @@ export interface IUserClassReturn {
     codeResponse: number;
     message: any;
     user?: IUser;
+    users?: IUser[];
     token?: string;
 }

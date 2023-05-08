@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/userModel";
 
-import { IUserClassReturn } from "../types";
+import { IUser, IUserClassReturn } from "../types";
 import { jwtFunc, validations } from "../utils";
 
 class UserInstance {
@@ -57,8 +57,13 @@ class UserInstance {
         }
     }
 
-    async getAllUsers(): Promise<IUserClassReturn> {
-        return { codeResponse: 200, message: "sf" };
+    async getAllUsers(user: IUser): Promise<IUserClassReturn> {
+        try {
+            const allUsers = await User.find().select("-password -__v");
+            return { codeResponse: 200, message: "All Users", users: allUsers.map((val) => val.toObject()) };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
     }
 }
 

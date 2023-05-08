@@ -13,8 +13,8 @@ export const createUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const { codeResponse, message } = await mainUserInstance.getAllUsers();
-        res.status(codeResponse).json({ message });
+        const { codeResponse, message, users } = await mainUserInstance.getAllUsers(req.user);
+        res.status(codeResponse).json(users);
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }

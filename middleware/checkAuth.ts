@@ -10,9 +10,7 @@ const checkAuth = async (req, res, next) => {
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET_SEED);
 
-            /* req.user = await User.findById(decoded).select("-password  -createdAt -updatedAt"); */
-
-            console.log(decoded);
+            req.user = await User.findById(decoded).select("-password  -createdAt -updatedAt -__v");
 
             return next();
         } catch (error) {
