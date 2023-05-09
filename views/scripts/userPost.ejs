@@ -5,6 +5,11 @@
     const name = document.querySelector('#name');
     const password = document.querySelector('#password');
     const passwordConfirm = document.querySelector('#passwordConfirm');
+    
+    const formLogin = document.querySelector('#formLogin');
+
+    const emailLogin = document.querySelector('#emailLogin');
+    const passwordLogin = document.querySelector('#passwordLogin');
 
     formRegister.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -38,5 +43,33 @@
         }
 
     });
+
+    formLogin.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const response = await fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: emailLogin.value,
+                password: passwordLogin.value
+            }),
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (data.token) {
+            // Si hay un token en la respuesta del servidor, guardarlo en una cookie
+            document.cookie = `token=${data.token}; SameSite=Strict`;
+            // Redirigir al usuario a la pantalla de inicio
+            window.location.href = '/home';
+        } else {
+            // Si no hay un token, mostrar un mensaje de error
+            alert(data.message);
+        }
+    })
 
 </script>

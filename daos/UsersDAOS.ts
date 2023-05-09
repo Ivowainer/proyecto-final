@@ -13,6 +13,37 @@ class UserInstance {
 
     db: { connect: () => Promise<void>; disconnect: () => Promise<void> }; */
 
+    async loginUser(objectUserInfo): Promise<IUserClassReturn> {
+        const { email, password } = objectUserInfo;
+
+        try {
+            const user = await User.findOne({ email });
+            if (!user) {
+                throw new Error("User not found");
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+
+            if (!isMatch) {
+                throw "Invalid password";
+            }
+
+            // User JWT
+            const token = jwtFunc.signToken(user._id.toString(), email);
+
+            return {
+                codeResponse: 201,
+                message: "User login successfully",
+                token,
+                user: {
+                    _id: user.toObject()._id.toString(),
+                    email: user.toObject().email,
+                    name: user.toObject().name,
+                },
+            };
+        } catch (error) {}
+    }
+
     async createUser(objectUserInfo): Promise<IUserClassReturn> {
         const { email, name, password } = objectUserInfo;
 
