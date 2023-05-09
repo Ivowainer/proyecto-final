@@ -11,9 +11,27 @@ export const createCart = async (req, res) => {
     }
 };
 
+export const getCart = async (req, res) => {
+    try {
+        const { codeResponse, message, cart } = await mainCartInstance.getCart(req.user.email);
+        res.status(codeResponse).json({ message, cart });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
+};
+
 export const addProductsInCart = async (req, res) => {
     try {
-        const { codeResponse, message, cart } = await mainCartInstance.addProductsInCart(req.body.productId, req.user.email);
+        const { codeResponse, message, cart } = await mainCartInstance.addProductsInCart(req.params?.productId, req.user.email);
+        res.status(codeResponse).json({ message, cart });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
+};
+
+export const removeProductsInCart = async (req, res) => {
+    try {
+        const { codeResponse, message, cart } = await mainCartInstance.removeProductsInCart(req.params?.productId, req.user.email);
         res.status(codeResponse).json({ message, cart });
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });

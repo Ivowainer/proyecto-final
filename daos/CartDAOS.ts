@@ -41,6 +41,16 @@ class CartInstance {
         }
     }
 
+    async getCart(email: string): Promise<ICartClassReturn> {
+        try {
+            const cart = await (await Cart.findOne({ email: email })).populate("products");
+
+            return { codeResponse: 200, message: `The cart of the user ${email}`, cart: cart.toObject() };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
+
     async addProductsInCart(productId: string, email: string): Promise<ICartClassReturn> {
         const product = await Product.findById(productId);
         if (!product) {
@@ -49,6 +59,24 @@ class CartInstance {
 
         try {
             const cart = await Cart.findOneAndUpdate({ email: email }, { $push: { products: productId } }, { new: true });
+            if (!cart) {
+                throw { codeResponse: 400, message: "Please create a cart" };
+            }
+
+            return { codeResponse: 200, message: "Product added to cart successfully", cart: cart.toObject() };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
+
+    async removeProductsInCart(productId: string, email: string): Promise<ICartClassReturn> {
+        const product = await Product.findById(productId);
+        if (!product) {
+            throw { codeResponse: 400, message: "Product not found" };
+        }
+
+        try {
+            const cart = await Cart.findOneAndUpdate({ email: email }, { $pull: { products: productId } }, { new: true });
             if (!cart) {
                 throw { codeResponse: 400, message: "Please create a cart" };
             }

@@ -10,7 +10,13 @@ const router = express.Router();
 router
     .route("/cart")
     .post(checkAuth, cartsController.createCart)
+    .get(checkAuth, cartsController.getCart)
+
+//prettier-ignore
+router
+    .route("/cart/:productId")
     .put(checkAuth, cartsController.addProductsInCart)
+    .delete(checkAuth, cartsController.removeProductsInCart)
 /* .get(productsController.getAllProducts) */
 
 export default router;
