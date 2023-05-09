@@ -30,7 +30,11 @@ app.use("/api", productsRoutes);
 const PORT = process.env.PORT || 3000;
 
 // Definir la ruta para la vista index.ejs
-app.get("/", checkAuth, (req, res) => {
+app.get("/", (req, res) => {
+    res.render("index");
+});
+
+app.get("/productos", checkAuth, (req, res) => {
     res.render("index");
 });
 

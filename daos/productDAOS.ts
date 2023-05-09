@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Product from "../models/productModel";
 import { IProductClassReturn } from "../types";
 
@@ -56,7 +57,11 @@ class ProductInstance {
 
     async getProductById(id: string): Promise<IProductClassReturn> {
         try {
-            const product = await Product.findById(id).select("-__v");
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                throw { codeResponse: 400, message: "Invalid product ID" };
+            }
+
+            const product = await Product.findById(id.toString()).select("-__v");
 
             if (!product) {
                 throw { codeResponse: 404, message: "The product doesn't exists" };

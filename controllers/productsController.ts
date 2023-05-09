@@ -22,7 +22,7 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
     try {
-        const { codeResponse, message, product } = await mainProductInstance.getProductById(req.params.id);
+        const { codeResponse, message, product } = await mainProductInstance.getProductById(req.params.id.toString());
         res.status(codeResponse).json({ message, product });
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
@@ -49,8 +49,8 @@ export const deleteProduct = async (req, res) => {
 
 export const getProdyctByCategory = async (req, res) => {
     try {
-        const { codeResponse, message, product } = await mainProductInstance.getProductByCateogry(req.params.category);
-        res.status(codeResponse).json({ message });
+        const { codeResponse, message, products } = await mainProductInstance.getProductByCateogry(req.params.category);
+        res.status(codeResponse).json({ message, products });
     } catch (error) {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }
