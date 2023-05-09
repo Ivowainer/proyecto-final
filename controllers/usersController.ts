@@ -46,3 +46,12 @@ export const deleteUser = async (req, res) => {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }
 };
+
+export const loginUser = async (req, res) => {
+    try {
+        const { codeResponse, message, user, token } = await mainUserInstance.loginUser(req.body);
+        res.status(codeResponse).json({ user, message, token });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
+};

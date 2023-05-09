@@ -20,4 +20,6 @@ router
     .put(usersController.updateUser)
     .delete(usersController.deleteUser);
 
+router.post("/users/login", usersController.loginUser);
+
 export default router;

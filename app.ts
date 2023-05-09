@@ -8,6 +8,7 @@ import ejs from "ejs";
 import { db } from "./database";
 import { productsRoutes, userRoutes } from "./routes";
 import { checkAuth } from "./middleware";
+import cartRoutes from "./routes/cart.routes";
 
 // Crear instancia de Express
 const app = express();
@@ -25,6 +26,7 @@ app.set("views", path.join(__dirname, "views"));
 // Rutas
 app.use("/api", userRoutes);
 app.use("/api", productsRoutes);
+app.use("/api", cartRoutes);
 
 // Inicializar servidor
 const PORT = process.env.PORT || 3000;

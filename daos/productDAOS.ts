@@ -109,8 +109,6 @@ class ProductInstance {
                 throw { codeResponse: 404, message: "The category doesn't exists" };
             }
 
-            console.log(products);
-
             return { codeResponse: 200, message: `All products with the category: ${category}`, products: products.map((val) => val.toObject()) };
         } catch (error) {
             throw { codeResponse: error.code, message: error.message };

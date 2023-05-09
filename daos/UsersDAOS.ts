@@ -23,9 +23,8 @@ class UserInstance {
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
-
             if (!isMatch) {
-                throw "Invalid password";
+                throw { codeResponse: 403, message: "Invalid Password" };
             }
 
             // User JWT
@@ -41,7 +40,9 @@ class UserInstance {
                     name: user.toObject().name,
                 },
             };
-        } catch (error) {}
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
     }
 
     async createUser(objectUserInfo): Promise<IUserClassReturn> {
@@ -104,8 +105,6 @@ class UserInstance {
             if (!user) {
                 throw { codeResponse: 404, message: "The user doesn't exists" };
             }
-
-            console.log(user);
 
             return { codeResponse: 200, message: `User by id: ${id}`, user: user.toObject() };
         } catch (error) {
