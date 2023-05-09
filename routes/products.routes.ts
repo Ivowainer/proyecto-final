@@ -18,4 +18,6 @@ router
     .put(productsController.updateProduct)
     .delete(productsController.deleteProduct);
 
+router.get("/products/category/:category", productsController.getProdyctByCategory);
+
 export default router;

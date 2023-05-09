@@ -7,6 +7,7 @@ import ejs from "ejs";
 
 import { db } from "./database";
 import { productsRoutes, userRoutes } from "./routes";
+import { checkAuth } from "./middleware";
 
 // Crear instancia de Express
 const app = express();
@@ -29,7 +30,7 @@ app.use("/api", productsRoutes);
 const PORT = process.env.PORT || 3000;
 
 // Definir la ruta para la vista index.ejs
-app.get("/", (req, res) => {
+app.get("/", checkAuth, (req, res) => {
     res.render("index");
 });
 

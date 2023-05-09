@@ -46,3 +46,12 @@ export const deleteProduct = async (req, res) => {
         res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
     }
 };
+
+export const getProdyctByCategory = async (req, res) => {
+    try {
+        const { codeResponse, message, product } = await mainProductInstance.getProductByCateogry(req.params.category);
+        res.status(codeResponse).json({ message });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
+};

@@ -9,7 +9,7 @@ class ProductInstance {
     db: { connect: () => Promise<void>; disconnect: () => Promise<void> }; */
 
     async createProduct(objectProductInfo): Promise<IProductClassReturn> {
-        const { title, description, image, price } = objectProductInfo;
+        const { title, description, image, price, category } = objectProductInfo;
 
         // Validation
         if (!title || title?.length < 6) throw { codeRepsonse: 403, message: "The title must contain at least 6 characters" };
@@ -30,6 +30,7 @@ class ProductInstance {
                 description: description?.toLowerCase(),
                 image: image?.toLowerCase(),
                 price,
+                category: category?.toLowerCase(),
             });
 
             await newProduct.save({ validateBeforeSave: true });
@@ -68,14 +69,14 @@ class ProductInstance {
     }
 
     async updateProduct(objectProductInfo, id: string): Promise<IProductClassReturn> {
-        const { title, description, image, price } = objectProductInfo;
+        const { title, description, image, price, category } = objectProductInfo;
 
         // Validation
         if (title && title.length < 3) throw { codeRepsonse: 403, message: "The name must contain at least 3 characters" };
         if (description && description.length < 6) throw { codeRepsonse: 403, message: "The description must contain at least 6 characters" };
 
         try {
-            const productUpdated = await Product.findByIdAndUpdate(id, { title, description, price, image }, { new: true });
+            const productUpdated = await Product.findByIdAndUpdate(id, { title, description, price, image, category }, { new: true });
 
             const product = await productUpdated.save();
 
@@ -90,6 +91,22 @@ class ProductInstance {
             const productDeleted = await Product.findOneAndDelete(id);
 
             return { codeResponse: 200, message: "The product has been deleted successfully" };
+        } catch (error) {
+            throw { codeResponse: error.code, message: error.message };
+        }
+    }
+
+    async getProductByCateogry(category: string): Promise<IProductClassReturn> {
+        try {
+            const products = await Product.find({ category }).select("-__v");
+
+            if (products.length == 0) {
+                throw { codeResponse: 404, message: "The category doesn't exists" };
+            }
+
+            console.log(products);
+
+            return { codeResponse: 200, message: `All products with the category: ${category}`, products: products.map((val) => val.toObject()) };
         } catch (error) {
             throw { codeResponse: error.code, message: error.message };
         }
