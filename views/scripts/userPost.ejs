@@ -36,7 +36,7 @@
             // Si hay un token en la respuesta del servidor, guardarlo en una cookie
             document.cookie = `token=${data.token}; SameSite=Strict`;
             // Redirigir al usuario a la pantalla de inicio
-            window.location.href = '/home';
+            window.location.href = '/chat';
         } else {
             // Si no hay un token, mostrar un mensaje de error
             alert(data.message);
@@ -65,7 +65,7 @@
             // Si hay un token en la respuesta del servidor, guardarlo en una cookie
             document.cookie = `token=${data.token}; SameSite=Strict`;
             // Redirigir al usuario a la pantalla de inicio
-            window.location.href = '/home';
+            window.location.href = '/chat';
         } else {
             // Si no hay un token, mostrar un mensaje de error
             alert(data.message);
