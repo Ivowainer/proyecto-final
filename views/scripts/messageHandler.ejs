@@ -12,7 +12,7 @@
     socket.on('newMessage', (data) => {
         // Agrega el mensaje recibido al chat
         const newMessage = document.createElement('li');
-        newMessage.innerText = `${userEmail}: ${data.message}`;
+        newMessage.innerText = `${data.email}: ${data.message}`;
         chatBox.appendChild(newMessage);
     });
 

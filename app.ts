@@ -33,6 +33,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use("/api", userRoutes);
 app.use("/api", productsRoutes);
 app.use("/api", cartRoutes);
+app.get("/api/chat/:email", checkAuth, async (req: any, res) => {
+    try {
+        const messageHistory = await Message.find({ email: req.user.email });
+        res.status(200).json({ message: "The history of message", messages: messageHistory });
+    } catch (error) {
+        res.status(404).json({ codeResponse: error.codeResponse, message: error.message });
+    }
+});
 
 // Inicializar servidor
 const PORT = process.env.PORT || 3000;
@@ -81,7 +89,7 @@ io.on("connection", (socket) => {
             console.log(`Mensaje guardado en la base de datos: ${message._id}`);
 
             // Emite un evento "newMessage" a todos los clientes conectados, con el mensaje recibido
-            io.emit("newMessage", { message: data.message });
+            io.emit("newMessage", { message: data.message, email: data.email });
         } catch (err) {
             console.error("Error al guardar el mensaje en la base de datos:", err);
         }
